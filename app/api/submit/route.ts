@@ -1,30 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { SECTIONS } from '@/lib/questions';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 function formatAnswers(answers: Record<string, unknown>): string {
   let html = '';
-
   for (const section of SECTIONS) {
     html += `<h2 style="font-family:Georgia,serif;color:#6E1A1A;border-bottom:1px solid #B08D57;padding-bottom:6px;margin-top:32px;">${section.title}</h2>`;
-
     for (const q of section.questions) {
       const val = answers[q.id];
       if (!val || (Array.isArray(val) && val.length === 0)) continue;
-
       const display = Array.isArray(val) ? val.join(', ') : String(val);
-
       html += `
         <div style="margin-bottom:16px;">
           <p style="font-family:Georgia,serif;font-weight:bold;color:#2C1810;margin:0 0 4px;">${q.label}</p>
           <p style="font-family:Georgia,serif;color:#3A3A3A;margin:0;white-space:pre-wrap;">${display}</p>
-        </div>
-      `;
+        </div>`;
     }
   }
-
   return html;
 }
 
@@ -34,12 +26,20 @@ export async function POST(req: NextRequest) {
     const { answers, submittedAt } = body as { answers: Record<string, unknown>; submittedAt: string };
 
     const name = (answers['preferred_name'] as string) || (answers['legal_name'] as string) || 'Your client';
-    const html = formatAnswers(answers);
 
-    const emailHtml = `
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT ?? '587', 10),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const html = `
       <!DOCTYPE html>
       <html>
-      <head><meta charset="utf-8"></head>
       <body style="background:#F5EDD6;padding:40px 20px;font-family:Georgia,serif;">
         <div style="max-width:680px;margin:0 auto;background:#FCF4E0;border:1px solid #B08D57;padding:40px;box-shadow:0 2px 12px rgba(44,24,16,0.15);">
           <div style="text-align:center;margin-bottom:32px;">
@@ -48,25 +48,20 @@ export async function POST(req: NextRequest) {
             <p style="color:#7A5C3A;font-style:italic;margin:0;">Website Questionnaire — Submission</p>
             <p style="color:#B08D57;letter-spacing:0.5em;font-size:12px;margin-top:12px;">✦ ✦ ✦</p>
           </div>
-
           <p style="color:#2C1810;"><strong>${name}</strong> completed the questionnaire on ${submittedAt}.</p>
-
-          ${html}
-
+          ${formatAnswers(answers)}
           <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #B08D57;">
-            <p style="color:#B08D57;letter-spacing:0.5em;font-size:12px;">✦ ✦ ✦</p>
             <p style="color:#7A5C3A;font-style:italic;font-size:13px;">Swell Realty — Website Project</p>
           </div>
         </div>
       </body>
-      </html>
-    `;
+      </html>`;
 
-    await resend.emails.send({
-      from: 'Swell Questionnaire <onboarding@resend.dev>',
+    await transporter.sendMail({
+      from: `"Swell Questionnaire" <${process.env.SMTP_USER}>`,
       to: process.env.NOTIFICATION_EMAIL ?? 'jedwards@tanta-holdings.com',
       subject: `Questionnaire submitted — ${name}`,
-      html: emailHtml,
+      html,
     });
 
     return NextResponse.json({ ok: true });
