@@ -90,7 +90,7 @@ export default function Home() {
       <div style={{ maxWidth: '720px', margin: '0 auto' }}>
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <p className="ornament" style={{ marginBottom: '16px' }}>✦ ✦ ✦</p>
           <h1 style={{
             fontFamily: 'Georgia, serif',
@@ -102,13 +102,29 @@ export default function Home() {
           }}>
             Swell Realty
           </h1>
-          <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontStyle: 'italic', fontSize: '1rem', marginBottom: '4px' }}>
+          <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontStyle: 'italic', fontSize: '1rem' }}>
             Website Questionnaire
           </p>
           <div style={{ width: '60px', height: '1px', background: 'var(--brass)', margin: '20px auto' }} />
-          <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontSize: '0.88rem', lineHeight: '1.7' }}>
-            Answer in as much detail as you like. Your progress saves automatically — close and return any time.
+        </div>
+
+        {/* Intro card */}
+        <div className="section-card" style={{ padding: '36px 48px', marginBottom: '40px' }}>
+          <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '20px' }}>
+            We are building your website and brand from the ground up — and we can only make it truly yours if we understand you completely. Every question in this form feeds directly into decisions about your design, your copy, your colors, your logo, and how you show up to every client who finds you online.
           </p>
+          <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '20px' }}>
+            <strong>Please answer with as much detail as possible.</strong> There are no wrong answers and no answer that is too long. The more you give us — stories, references, opinions, specifics — the less we have to guess, and the better the final product will be. Vague answers produce generic websites. Your answers produce something built for you.
+          </p>
+          <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '0' }}>
+            If you are unsure about something, say so and explain your hesitation — that is just as useful. If a question does not apply, write "skip." You can close this at any time and return exactly where you left off. Your progress saves automatically with every keystroke.
+          </p>
+          <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid rgba(176,141,87,0.3)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brass)', flexShrink: 0 }} />
+            <p style={{ fontFamily: 'Georgia, serif', fontSize: '0.85rem', color: 'var(--sepia)', fontStyle: 'italic', margin: 0 }}>
+              16 sections &nbsp;·&nbsp; ~20–30 minutes &nbsp;·&nbsp; saves automatically &nbsp;·&nbsp; close and return any time
+            </p>
+          </div>
         </div>
 
         {/* Resume banner */}
