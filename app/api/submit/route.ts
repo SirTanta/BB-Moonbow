@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 import { SECTIONS } from '@/lib/questions';
 
 function slugify(str: string): string {
@@ -59,6 +60,33 @@ export async function POST(req: NextRequest) {
       jsonContent,
       `Questionnaire response — ${name} (${submittedAt})`
     );
+
+    // Send email notification
+    if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const labelMap: Record<string, string> = {};
+      for (const section of SECTIONS) {
+        for (const q of section.questions) {
+          labelMap[q.id] = q.label;
+        }
+      }
+
+      const rows = Object.entries(answersToStore)
+        .filter(([, v]) => v !== undefined && v !== '' && v !== null)
+        .map(([k, v]) => {
+          const label = labelMap[k] ?? k;
+          const display = Array.isArray(v) ? v.join(', ') : typeof v === 'object' ? JSON.stringify(v) : String(v);
+          return `<tr><td style="padding:4px 8px;font-weight:600;vertical-align:top;white-space:nowrap">${label}</td><td style="padding:4px 8px">${display}</td></tr>`;
+        })
+        .join('');
+
+      await resend.emails.send({
+        from: 'Swell Realty Questionnaire <noreply@tantaholdings.com>',
+        to: 'jedwards@tanta-holdings.com',
+        subject: `Questionnaire submitted — ${name}`,
+        html: `<p>New questionnaire submission from <strong>${name}</strong> at ${submittedAt}.</p><table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`,
+      });
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
