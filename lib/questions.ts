@@ -520,12 +520,42 @@ export const SECTIONS: Section[] = [
   },
   {
     id: 'open',
-    title: 'Open Field',
-    subtitle: 'Last section. Say everything.',
+    title: 'Additional Information',
+    subtitle: 'This is your open canvas. We have asked a lot of specific questions — now tell us everything we did not think to ask. The more you share here, the better the final product.',
     questions: [
-      { id: 'anything_else', label: 'Anything else you want me to know', help: 'Dreams, fears, things you\'ve seen and loved, things you\'ve seen and hated, family stories tied to the brand — anything.', type: 'textarea' },
-      { id: 'tried_before', label: 'Things you\'ve tried before that didn\'t work', help: 'Saves us from repeating.', type: 'textarea' },
-      { id: 'success_definition', label: 'What does "the site is a success" look like 6 months after launch?', help: 'Be specific. Number of leads, type of leads, vibe people get, recognition in market.', type: 'textarea' },
+      {
+        id: 'anything_else',
+        label: 'Anything else you want us to know',
+        help: 'Dreams, fears, things you\'ve seen and loved, things you\'ve seen and hated, family stories tied to the brand, a feeling you want people to have, a memory that captures the vibe — anything at all.',
+        type: 'textarea',
+        placeholder: 'There is no limit here. Write as much as you want.',
+      },
+      {
+        id: 'tried_before',
+        label: 'Things you have tried before that did not work',
+        help: 'Past websites, marketing approaches, branding attempts, headshots that felt wrong. Saves us from repeating mistakes.',
+        type: 'textarea',
+      },
+      {
+        id: 'success_definition',
+        label: 'What does "the site is a success" look like 6 months after launch?',
+        help: 'Be specific — number of leads, type of clients, how people describe you when they refer you, recognition in your market, a particular listing type you want more of.',
+        type: 'textarea',
+      },
+      {
+        id: 'additional_links',
+        label: 'Any links, images, or references you want to share',
+        help: 'Competitor sites, inspiration from outside real estate (hotels, boutiques, restaurants, magazines), specific listings you are proud of, anything visual that captures what you are going for.',
+        type: 'url-list',
+        placeholder: 'Paste links here, one per line. Add a note after each.',
+      },
+      {
+        id: 'free_write',
+        label: 'Free write — anything you want to say that does not fit the questions above',
+        help: 'No prompt, no structure. Just talk. What is on your mind about this project?',
+        type: 'textarea',
+        placeholder: 'Say whatever you want here.',
+      },
     ],
   },
 ];
