@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
 import { SECTIONS } from '@/lib/questions';
 
 function slugify(str: string): string {
@@ -61,9 +60,8 @@ export async function POST(req: NextRequest) {
       `Questionnaire response — ${name} (${submittedAt})`
     );
 
-    // Send email notification
-    if (process.env.RESEND_API_KEY) {
-      const resend = new Resend(process.env.RESEND_API_KEY);
+    // Send email notification via Composio Gmail
+    if (process.env.COMPOSIO_SDK_KEY) {
       const labelMap: Record<string, string> = {};
       for (const section of SECTIONS) {
         for (const q of section.questions) {
@@ -80,12 +78,21 @@ export async function POST(req: NextRequest) {
         })
         .join('');
 
-      await resend.emails.send({
-        from: 'Swell Realty Questionnaire <noreply@tantaholdings.com>',
-        to: 'jedwards@tanta-holdings.com',
-        subject: `Questionnaire submitted — ${name}`,
-        html: `<p>New questionnaire submission from <strong>${name}</strong> at ${submittedAt}.</p><table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`,
-      });
+      await fetch('https://backend.composio.dev/api/v2/actions/GMAIL_SEND_EMAIL/execute', {
+        method: 'POST',
+        headers: {
+          'X-API-Key': process.env.COMPOSIO_SDK_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          connectedAccountId: 'gmail_fitter-payoff',
+          input: {
+            recipient_email: 'jedwards@tanta-holdings.com',
+            subject: `Questionnaire submitted — ${name}`,
+            body: `<p>New submission from <strong>${name}</strong> at ${submittedAt}.</p><table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`,
+          },
+        }),
+      }).catch(err => console.error('Composio email error:', err));
     }
 
     return NextResponse.json({ ok: true });
