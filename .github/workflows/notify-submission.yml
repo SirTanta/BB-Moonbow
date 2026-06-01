@@ -1,0 +1,55 @@
+name: Notify — Questionnaire Submitted
+
+on:
+  push:
+    paths:
+      - 'responses/**.json'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get submission details
+        id: details
+        run: |
+          FILE=$(git diff --name-only HEAD~1 HEAD | grep 'responses/.*\.json' | head -1)
+          if [ -z "$FILE" ]; then
+            echo "No JSON file found"
+            exit 0
+          fi
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+          NAME=$(jq -r '.name // "Unknown"' "$FILE")
+          SUBMITTED=$(jq -r '.submittedAt // "Unknown date"' "$FILE")
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "submitted=$SUBMITTED" >> $GITHUB_OUTPUT
+
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          secure: false
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "Questionnaire completed — ${{ steps.details.outputs.name }}"
+          to: jedwards@tanta-holdings.com
+          from: "Swell Questionnaire <${{ secrets.SMTP_USER }}>"
+          html_body: |
+            <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#FCF4E0;padding:40px;border:1px solid #B08D57;">
+              <p style="color:#B08D57;letter-spacing:0.4em;text-align:center;">✦ ✦ ✦</p>
+              <h1 style="color:#2C1810;font-size:24px;font-weight:400;text-align:center;">Questionnaire Submitted</h1>
+              <hr style="border:none;border-top:1px solid #B08D57;margin:20px 0;">
+              <p style="color:#2C1810;"><strong>${{ steps.details.outputs.name }}</strong> completed the questionnaire on ${{ steps.details.outputs.submitted }}.</p>
+              <p style="color:#7A5C3A;">
+                <a href="https://github.com/SirTanta/BB-Moonbow/tree/master/responses" style="color:#6E1A1A;">
+                  View all responses on GitHub →
+                </a>
+              </p>
+              <hr style="border:none;border-top:1px solid #B08D57;margin:20px 0;">
+              <p style="color:#B08D57;letter-spacing:0.4em;text-align:center;font-size:12px;">✦ ✦ ✦</p>
+            </div>
