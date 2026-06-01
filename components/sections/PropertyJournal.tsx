@@ -70,16 +70,16 @@ export default function PropertyJournal() {
                 justifyContent: 'center',
                 borderBottom: '1px solid rgba(176,141,87,0.2)',
                 position: 'relative',
-                // STUB: sepia filter applied for vintage aesthetic
-                filter: 'sepia(0.4) contrast(1.1)',
               }}>
                 {/* STUB: listing.image will replace this placeholder when real photos are provided */}
+                {/* STUB: apply filter to <img> element directly (not this container) to avoid bleeding onto status badge */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: '8px',
                   opacity: 0.4,
+                  filter: 'sepia(0.4) contrast(1.1)',
                 }}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ color: 'var(--sepia)' }}>
                     <rect x="3" y="3" width="18" height="18" rx="2" />

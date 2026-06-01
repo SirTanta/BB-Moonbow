@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { MapContainer, TileLayer, Polygon, AttributionControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+
+const STADIA_KEY = process.env.NEXT_PUBLIC_STADIA_API_KEY ?? '';
 
 // Rough NC outline polygon — major vertices only for visual coverage overlay
 // STUB: these are approximate polygon coordinates for visual effect, not precise state borders
@@ -49,19 +50,6 @@ const mapStyle: React.CSSProperties = {
 };
 
 export default function CoverageMap() {
-  // Fix Leaflet default icon issue in Next.js
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const L = require('leaflet');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-    });
-  }, []);
-
   return (
     <MapContainer
       center={[36.5, -79.5]}
@@ -70,10 +58,10 @@ export default function CoverageMap() {
       attributionControl={false}
       zoomControl={true}
     >
-      {/* Stamen Watercolor tiles via fastly CDN */}
+      {/* Stamen Watercolor tiles via Stadia Maps CDN */}
       <TileLayer
-        url="https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"
-        attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>'
+        url={`https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg${STADIA_KEY ? `?api_key=${STADIA_KEY}` : ''}`}
+        attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
 
       <AttributionControl position="bottomright" />
@@ -82,8 +70,8 @@ export default function CoverageMap() {
       <Polygon
         positions={NC_POLYGON}
         pathOptions={{
-          color: 'var(--oxblood, #722f37)',
-          fillColor: 'var(--oxblood, #722f37)',
+          color: '#722f37',
+          fillColor: '#722f37',
           fillOpacity: 0.3,
           weight: 2,
           opacity: 0.6,
@@ -94,8 +82,8 @@ export default function CoverageMap() {
       <Polygon
         positions={VA_POLYGON}
         pathOptions={{
-          color: 'var(--oxblood, #722f37)',
-          fillColor: 'var(--oxblood, #722f37)',
+          color: '#722f37',
+          fillColor: '#722f37',
           fillOpacity: 0.3,
           weight: 2,
           opacity: 0.6,

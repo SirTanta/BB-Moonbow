@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SECTIONS } from '@/lib/questions';
 
+function escHtml(s: string): string {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function slugify(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
@@ -74,7 +78,7 @@ export async function POST(req: NextRequest) {
         .map(([k, v]) => {
           const label = labelMap[k] ?? k;
           const display = Array.isArray(v) ? v.join(', ') : typeof v === 'object' ? JSON.stringify(v) : String(v);
-          return `<tr><td style="padding:4px 8px;font-weight:600;vertical-align:top;white-space:nowrap">${label}</td><td style="padding:4px 8px">${display}</td></tr>`;
+          return `<tr><td style="padding:4px 8px;font-weight:600;vertical-align:top;white-space:nowrap">${escHtml(label)}</td><td style="padding:4px 8px">${escHtml(display)}</td></tr>`;
         })
         .join('');
 
@@ -88,8 +92,8 @@ export async function POST(req: NextRequest) {
           connectedAccountId: 'gmail_fitter-payoff',
           input: {
             recipient_email: 'jedwards@tanta-holdings.com',
-            subject: `Questionnaire submitted — ${name}`,
-            body: `<p>New submission from <strong>${name}</strong> at ${submittedAt}.</p><table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`,
+            subject: `Questionnaire submitted — ${name.replace(/[\r\n]/g, ' ').trim()}`,
+            body: `<p>New submission from <strong>${escHtml(name)}</strong> at ${escHtml(submittedAt)}.</p><table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">${rows}</table>`,
           },
         }),
       }).catch(err => console.error('Composio email error:', err));

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { AGENT } from '@/lib/stub-data';
 
 export default function About() {
@@ -20,21 +21,20 @@ export default function About() {
           {/* Left: Portrait placeholder */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {AGENT.photo ? (
-              // STUB: replace this block with next/image when photo is received
               <div style={{
+                position: 'relative',
                 width: '100%',
                 maxWidth: '340px',
                 aspectRatio: '3/4',
-                background: 'var(--parchment)',
-                border: '1px solid var(--brass)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 boxShadow: '4px 4px 16px rgba(44,24,16,0.15)',
+                border: '1px solid var(--brass)',
               }}>
-                <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontStyle: 'italic', fontSize: '0.85rem' }}>
-                  Photo
-                </p>
+                <Image
+                  src={AGENT.photo}
+                  alt="Britteney Powers"
+                  fill
+                  className="object-cover"
+                />
               </div>
             ) : (
               /* STUB: Photo placeholder — replace with <Image src={AGENT.photo} ... /> when available */

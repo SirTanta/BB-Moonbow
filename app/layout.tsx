@@ -29,8 +29,8 @@ const imFell = IM_Fell_English({
 });
 
 export const metadata: Metadata = {
-  title: "Website Questionnaire — Swell Realty",
-  description: "Tell us everything we need to build your perfect vintage real estate website.",
+  title: "Britteney Powers — Swell Realty | NC & VA Real Estate",
+  description: "Britteney Powers, NC Broker and VA Salesperson with Swell Realty. Serving buyers and sellers across North Carolina and Virginia.",
 };
 
 const GA_ID = "G-44MNCME40P";

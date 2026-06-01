@@ -21,19 +21,21 @@
 
 ## Known Gaps / Deferred Items
 
-1. **Map tile availability**: Stamen Watercolor tiles via `stamen-tiles.a.ssl.fastly.net` may be deprecated (Stamen was acquired by Stadia Maps in 2023). If map renders blank in production, swap URL to `https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg` — requires a free Stadia Maps API key set as `NEXT_PUBLIC_STADIA_API_KEY`.
+1. **Rate limiting**: `/api/contact` and `/api/submit` have no per-IP rate limit. Middleware (`app/middleware.ts`) adds Content-Type enforcement and X-Robots-Tag headers but full rate limiting requires an external store. **Rate limiting deferred — Vercel KV or Upstash needed for production hardening.**
 
-2. **Listing images**: All 3 listing cards show placeholder. Replace `LISTINGS[n].image` in `lib/stub-data.ts` with `/images/listing-n.jpg` paths and uncomment `<Image>` logic in `PropertyJournal.tsx` when photos arrive.
+2. **Map tile availability**: Tile URL swapped to Stadia Maps (`tiles.stadiamaps.com/tiles/stamen_watercolor`). Set `NEXT_PUBLIC_STADIA_API_KEY` in `.env.local` and Vercel environment for authenticated requests. Stadia allows limited unauthenticated dev requests if key is absent.
 
-3. **Agent photo**: `AGENT.photo = null` in stub-data. When received, set `AGENT.photo = '/britteney.jpg'`, place file at `public/britteney.jpg`, and update `About.tsx` to render `<Image>`.
+3. **Listing images**: All 3 listing cards show placeholder. Replace `LISTINGS[n].image` in `lib/stub-data.ts` with `/images/listing-n.jpg` paths and add `<Image>` with `className="object-cover"` and the sepia filter applied to the `<img>` element directly (not the container) when photos arrive.
 
-4. **All STUB: fields**: 15+ placeholders in stub-data.ts and component copy await questionnaire response. Search `// STUB:` to locate all.
+4. **Agent photo**: `AGENT.photo = null` in stub-data. When received, set `AGENT.photo = '/britteney.jpg'`, place file at `public/britteney.jpg`. `About.tsx` is already wired — the truthy branch renders `<Image src={AGENT.photo} alt="Britteney Powers" fill className="object-cover" />`.
 
-5. **Social URLs**: Footer social links all point to `#`. Update Facebook, Instagram, LinkedIn hrefs when Britteney provides handles.
+5. **All STUB: fields**: 15+ placeholders in stub-data.ts and component copy await questionnaire response. Search `// STUB:` to locate all.
 
-6. **Mobile nav**: Header desktop nav hidden via CSS class `header-nav-link` — relies on globals.css media query. The hamburger is always rendered in HTML but hidden via CSS; this is the correct pattern for SSR.
+6. **Social URLs**: Footer social links all point to `#`. Update Facebook, Instagram, LinkedIn hrefs when Britteney provides handles.
 
-7. **MLS platform name**: PropertyJournal footer note has `[STUB: MLS platform]` — update when confirmed.
+7. **Mobile nav**: Header desktop nav hidden via CSS class `header-nav-link` — relies on globals.css media query. The hamburger is always rendered in HTML but hidden via CSS; this is the correct pattern for SSR.
+
+8. **MLS platform name**: PropertyJournal footer note has `[STUB: MLS platform]` — update when confirmed.
 
 ## Key Decisions
 

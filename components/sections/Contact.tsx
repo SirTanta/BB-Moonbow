@@ -28,7 +28,8 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error();
+      const data = await res.json().catch(() => ({ ok: false }));
+      if (!res.ok || !data.ok) throw new Error();
       setStatus('sent');
     } catch {
       setStatus('error');
@@ -250,7 +251,7 @@ export default function Contact() {
                   fontStyle: 'italic',
                   textAlign: 'center',
                 }}>
-                  Something went wrong. Please try again.
+                  Something went wrong — please try again or email directly.
                 </p>
               )}
 
