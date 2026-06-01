@@ -10,6 +10,11 @@
     --oxblood: #6E1A1A;
     --sage: #7A8C6E;
     --shadow: rgba(44, 24, 16, 0.15);
+
+    /* Font family vars — set by layout.tsx via next/font/google */
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-subhead: Georgia, 'Times New Roman', serif;
+    --font-accent:  Georgia, 'Times New Roman', serif;
   }
 
   * { box-sizing: border-box; }
@@ -224,3 +229,28 @@ body::before {
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--parchment); }
 ::-webkit-scrollbar-thumb { background: var(--brass); border-radius: 1px; }
+
+/* ── Font utility classes (added for main site) ── */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-subhead {
+  font-family: var(--font-subhead);
+}
+.font-accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+}
+
+/* ── Header responsive: show hamburger on mobile, hide desktop nav ── */
+@media (max-width: 767px) {
+  .header-nav-link { display: none !important; }
+  .header-hamburger { display: block !important; }
+}
+@media (min-width: 768px) {
+  .header-mobile-menu { display: none !important; }
+}
+
+/* ── Leaflet CSS reset — prevent z-index conflicts with sticky header ── */
+.leaflet-container { z-index: 1; }
+.leaflet-top, .leaflet-bottom { z-index: 2; }
