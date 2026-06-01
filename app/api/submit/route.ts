@@ -5,56 +5,60 @@ function slugify(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-function formatEmailHtml(answers: Record<string, unknown>, submittedAt: string): string {
-  let html = `<h1 style="font-family:Georgia,serif;color:#2C1810;">Swell Realty — Questionnaire Submission</h1>`;
-  html += `<p style="font-family:Georgia,serif;color:#7A5C3A;"><strong>Submitted:</strong> ${submittedAt}</p>`;
-  for (const section of SECTIONS) {
-    html += `<h2 style="font-family:Georgia,serif;color:#6E1A1A;border-bottom:1px solid #B08D57;padding-bottom:6px;margin-top:32px;">${section.title}</h2>`;
-    for (const q of section.questions) {
-      const val = answers[q.id];
-      if (!val || (Array.isArray(val) && val.length === 0)) continue;
-      const display = Array.isArray(val) ? val.join(', ') : String(val);
-      html += `<div style="margin-bottom:16px;"><p style="font-family:Georgia,serif;font-weight:bold;color:#2C1810;margin:0 0 4px;">${q.label}</p><p style="font-family:Georgia,serif;color:#3A3A3A;margin:0;white-space:pre-wrap;">${display}</p></div>`;
-    }
+async function commitToGitHub(path: string, content: string, message: string) {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = 'SirTanta/BB-Moonbow';
+
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.github+json',
+    },
+    body: JSON.stringify({ message, content }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`GitHub API error: ${err}`);
   }
-  return html;
+  return res.json();
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { answers, submittedAt } = body as { answers: Record<string, unknown>; submittedAt: string };
-
-    const name = (answers['preferred_name'] as string) || (answers['legal_name'] as string) || 'client';
-    const filename = `responses/${slugify(name)}-${Date.now()}.json`;
-
-    const payload = {
-      answers,
-      submittedAt,
-      name,
+    const { answers, submittedAt } = body as {
+      answers: Record<string, unknown>;
+      submittedAt: string;
     };
 
-    const token = process.env.GITHUB_TOKEN;
-    const repo = 'SirTanta/BB-Moonbow';
+    const name = (answers['preferred_name'] as string) || (answers['legal_name'] as string) || 'client';
+    const slug = `${slugify(name)}-${Date.now()}`;
 
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${filename}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/vnd.github+json',
-      },
-      body: JSON.stringify({
-        message: `Questionnaire response — ${name} (${submittedAt})`,
-        content: Buffer.from(JSON.stringify(payload, null, 2)).toString('base64'),
-      }),
-    });
+    // Extract logo file before storing answers
+    type FileUpload = { name: string; type: string; size: number; data: string; mimeType: string };
+    const logoFile = answers['logo_file'] as FileUpload | undefined;
+    const answersToStore = { ...answers };
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('GitHub commit error:', err);
-      return NextResponse.json({ ok: false, error: 'Failed to save response.' }, { status: 500 });
+    if (logoFile?.data) {
+      const ext = logoFile.name.split('.').pop() ?? 'png';
+      const logoPath = `responses/${slug}-logo.${ext}`;
+      await commitToGitHub(logoPath, logoFile.data, `Logo upload — ${name}`);
+      answersToStore['logo_file'] = { uploaded: true, filename: `${slug}-logo.${ext}`, originalName: logoFile.name };
+    } else {
+      delete answersToStore['logo_file'];
     }
+
+    // Commit the response JSON
+    const payload = { answers: answersToStore, submittedAt, name };
+    const jsonContent = Buffer.from(JSON.stringify(payload, null, 2)).toString('base64');
+    await commitToGitHub(
+      `responses/${slug}.json`,
+      jsonContent,
+      `Questionnaire response — ${name} (${submittedAt})`
+    );
 
     return NextResponse.json({ ok: true });
   } catch (err) {

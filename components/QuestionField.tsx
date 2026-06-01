@@ -191,6 +191,72 @@ export function QuestionField({ question, value, onChange }: Props) {
           />
         </div>
       )}
+
+      {type === 'file-upload' && (
+        <div>
+          <label
+            htmlFor={`file-${id}`}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              padding: '32px 24px',
+              border: '1px dashed var(--brass)',
+              borderRadius: '2px',
+              background: 'rgba(248, 240, 220, 0.5)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(176,141,87,0.1)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(248, 240, 220, 0.5)')}
+          >
+            {strVal ? (
+              <>
+                <span style={{ fontSize: '2rem' }}>✓</span>
+                <span style={{ fontFamily: 'Georgia, serif', color: 'var(--ink)', fontSize: '0.9rem', fontWeight: '600' }}>
+                  {(value as { name?: string })?.name ?? 'File attached'}
+                </span>
+                <span style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontSize: '0.82rem', fontStyle: 'italic' }}>
+                  Click to replace
+                </span>
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize: '2rem', opacity: 0.5 }}>⬆</span>
+                <span style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontSize: '0.9rem' }}>
+                  Click to upload your logo
+                </span>
+                <span style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                  SVG, PNG, JPG, EPS — max 10MB
+                </span>
+              </>
+            )}
+          </label>
+          <input
+            id={`file-${id}`}
+            type="file"
+            accept=".svg,.png,.jpg,.jpeg,.eps,.ai,.pdf"
+            style={{ display: 'none' }}
+            onChange={e => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onload = () => {
+                onChange(id, {
+                  name: file.name,
+                  type: file.type,
+                  size: file.size,
+                  data: (reader.result as string).split(',')[1],
+                  mimeType: file.type || 'application/octet-stream',
+                });
+              };
+              reader.readAsDataURL(file);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

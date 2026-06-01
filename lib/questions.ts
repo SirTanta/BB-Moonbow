@@ -5,7 +5,8 @@ export type QuestionType =
   | 'checkbox'
   | 'scale'
   | 'color-palette'
-  | 'url-list';
+  | 'url-list'
+  | 'file-upload';
 
 export interface Question {
   id: string;
@@ -208,6 +209,12 @@ export const SECTIONS: Section[] = [
           'I need one designed from scratch',
           'Not sure',
         ],
+      },
+      {
+        id: 'logo_file',
+        label: 'Upload your logo (if you have one)',
+        help: 'SVG, PNG, JPG, or EPS — any format is fine. Max 10MB.',
+        type: 'file-upload',
       },
       {
         id: 'logo_inspiration',
