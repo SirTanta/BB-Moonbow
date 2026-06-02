@@ -109,7 +109,7 @@ export default function Home() {
         </div>
 
         {/* Intro card */}
-        <div className="section-card" style={{ padding: '36px 48px', marginBottom: '40px' }}>
+        <div className="section-card" style={{ padding: '36px 48px', marginBottom: '24px' }}>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '20px' }}>
             Before we build anything — before a color gets chosen or a word gets written — we need to understand who you are. Not your job title. You. Your energy, your aesthetic, your voice, the things that make you unmistakably yourself.
           </p>
@@ -125,6 +125,23 @@ export default function Home() {
               7 sections &nbsp;·&nbsp; ~15–20 minutes &nbsp;·&nbsp; saves automatically &nbsp;·&nbsp; close and return any time
             </p>
           </div>
+        </div>
+
+        {/* Swell differentiation callout */}
+        <div style={{
+          background: 'rgba(110, 26, 26, 0.04)',
+          border: '1px solid rgba(110, 26, 26, 0.2)',
+          borderLeft: '3px solid var(--oxblood)',
+          borderRadius: '0 2px 2px 0',
+          padding: '20px 28px',
+          marginBottom: '40px',
+        }}>
+          <p style={{ fontFamily: 'Georgia, serif', fontSize: '0.75rem', color: 'var(--oxblood)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '10px' }}>
+            A note before you begin
+          </p>
+          <p style={{ fontFamily: 'Georgia, serif', fontSize: '0.95rem', color: 'var(--ink)', lineHeight: '1.8', margin: 0 }}>
+            Swell Realty&rsquo;s brand is clean, modern, and built for a large brokerage — intentionally broad, intentionally safe. Your personal brand should feel completely different from it. More specific. More distinctly you. Something that stands alongside Swell without looking anything like it. When we ask about your aesthetic, your colors, your voice — we are not asking what fits a brokerage. We are asking what fits <em>you</em>.
+          </p>
         </div>
 
         {/* Resume banner */}
