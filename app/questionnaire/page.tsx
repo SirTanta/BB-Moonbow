@@ -77,7 +77,7 @@ export default function Home() {
           </h1>
           <div style={{ width: '60px', height: '1px', background: 'var(--brass)', margin: '0 auto 24px' }} />
           <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', lineHeight: '1.8', marginBottom: '32px' }}>
-            Your answers have been received. We will review everything carefully and be in touch shortly to begin building your site.
+            Your answers have been received. We will read everything carefully and be in touch soon — your brand is next.
           </p>
           <p className="ornament">✦</p>
         </div>
@@ -100,10 +100,10 @@ export default function Home() {
             letterSpacing: '0.04em',
             marginBottom: '8px',
           }}>
-            Swell Realty
+            Britteney Powers
           </h1>
           <p style={{ fontFamily: 'Georgia, serif', color: 'var(--sepia)', fontStyle: 'italic', fontSize: '1rem' }}>
-            Website Questionnaire
+            Brand Discovery
           </p>
           <div style={{ width: '60px', height: '1px', background: 'var(--brass)', margin: '20px auto' }} />
         </div>
@@ -111,18 +111,18 @@ export default function Home() {
         {/* Intro card */}
         <div className="section-card" style={{ padding: '36px 48px', marginBottom: '40px' }}>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '20px' }}>
-            We are building your website and brand from the ground up — and we can only make it truly yours if we understand you completely. Every question in this form feeds directly into decisions about your design, your copy, your colors, your logo, and how you show up to every client who finds you online.
+            Before we build anything — before a color gets chosen or a word gets written — we need to understand who you are. Not your job title. You. Your energy, your aesthetic, your voice, the things that make you unmistakably yourself.
           </p>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '20px' }}>
-            <strong>Please answer with as much detail as possible.</strong> There are no wrong answers and no answer that is too long. The more you give us — stories, references, opinions, specifics — the less we have to guess, and the better the final product will be. Vague answers produce generic websites. Your answers produce something built for you.
+            <strong>Answer with as much detail as possible.</strong> There are no wrong answers and no answer that is too long. The more you give us — stories, specifics, images, feelings — the less we have to guess, and the more the final brand will feel like you instead of a template with your name on it. Vague answers produce generic brands. Your answers produce something built for you specifically.
           </p>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '0' }}>
-            If you are unsure about something, say so and explain your hesitation — that is just as useful. If a question does not apply, write "skip." You can close this at any time and return exactly where you left off. Your progress saves automatically with every keystroke.
+            If you are unsure about something, say so and explain your hesitation — that is just as useful. If a question does not apply, write "skip." You can close this at any time and return exactly where you left off. Your progress saves automatically.
           </p>
           <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid rgba(176,141,87,0.3)', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brass)', flexShrink: 0 }} />
             <p style={{ fontFamily: 'Georgia, serif', fontSize: '0.85rem', color: 'var(--sepia)', fontStyle: 'italic', margin: 0 }}>
-              16 sections &nbsp;·&nbsp; ~20–30 minutes &nbsp;·&nbsp; saves automatically &nbsp;·&nbsp; close and return any time
+              7 sections &nbsp;·&nbsp; ~15–20 minutes &nbsp;·&nbsp; saves automatically &nbsp;·&nbsp; close and return any time
             </p>
           </div>
         </div>
