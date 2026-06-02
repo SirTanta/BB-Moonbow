@@ -91,10 +91,10 @@ export default function BrandBrief() {
             What This Is
           </p>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '16px' }}>
-            These are three distinct brand directions built before the questionnaire — based on what we know about Britteney, her markets, and the vintage aesthetic she\'s drawn to. They are starting points, not conclusions. The questionnaire answers will shape the final brand. These exist so there is something concrete to react to.
+            These are three distinct brand directions built before the questionnaire — based on what we know about Britteney, her markets, and the vintage aesthetic she&rsquo;s drawn to. They are starting points, not conclusions. The questionnaire answers will shape the final brand. These exist so there is something concrete to react to.
           </p>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1rem', color: 'var(--ink)', lineHeight: '1.85', margin: 0 }}>
-            Each direction includes a name, a color palette, a typography feel, a sample tagline, and a description of who it\'s best for. One of these will probably feel right immediately — or the right answer will be somewhere between two of them. Both are useful.
+            Each direction includes a name, a color palette, a typography feel, a sample tagline, and a description of who it&rsquo;s best for. One of these will probably feel right immediately — or the right answer will be somewhere between two of them. Both are useful.
           </p>
         </div>
 
