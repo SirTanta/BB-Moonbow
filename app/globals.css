@@ -230,6 +230,21 @@ body::before {
 ::-webkit-scrollbar-track { background: var(--parchment); }
 ::-webkit-scrollbar-thumb { background: var(--brass); border-radius: 1px; }
 
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: transform 0.15s ease, border 0.15s ease, box-shadow 0.15s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.18) !important;
+  box-shadow: 0 2px 8px rgba(44, 24, 16, 0.25);
+}
+
 /* ── Font utility classes (added for main site) ── */
 .font-display {
   font-family: var(--font-display);
