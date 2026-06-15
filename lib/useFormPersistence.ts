@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
 const STORAGE_KEY = 'swell_questionnaire_v1';
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { AGENT } from '@/lib/stub-data';
 
 type FormState = {
   name: string;
@@ -117,20 +118,18 @@ export default function Contact() {
               Whether you are ready to start your property search, thinking about selling, or simply have questions — reach out. Every journey begins with a conversation.
             </p>
 
-            {/* Contact details — STUB */}
+            {/* Contact details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span style={{ color: 'var(--brass)', fontSize: '0.8rem' }}>✦</span>
                 <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.88rem', color: 'var(--sepia)' }}>
-                  {/* STUB: phone number from questionnaire */}
-                  Phone: [STUB]
+                  Phone: {AGENT.phone}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span style={{ color: 'var(--brass)', fontSize: '0.8rem' }}>✦</span>
                 <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.88rem', color: 'var(--sepia)' }}>
-                  {/* STUB: email address from questionnaire */}
-                  Email: [STUB]
+                  Email: {AGENT.email}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

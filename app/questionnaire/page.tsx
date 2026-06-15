@@ -7,27 +7,36 @@ import { useSaveAnswers, useSaveSection, clearSavedForm } from '@/lib/useFormPer
 
 const TOTAL = SECTIONS.length;
 
+function loadSavedAnswers(): Record<string, unknown> {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('swell_questionnaire_v1') : null;
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed.answers && Object.keys(parsed.answers).length > 0 ? parsed.answers : {};
+  } catch {
+    return {};
+  }
+}
+
+function loadSavedSection(): number {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('swell_questionnaire_v1_section') : null;
+    return raw ? parseInt(raw, 10) : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const [sectionIndex, setSectionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, unknown>>({});
+  const [sectionIndex, setSectionIndex] = useState(() => loadSavedSection());
+  const [answers, setAnswers] = useState<Record<string, unknown>>(() => loadSavedAnswers());
   const [status, setStatus] = useState<'idle' | 'submitting' | 'done' | 'error'>('idle');
-  const [resumed, setResumed] = useState(false);
+  const [resumed, setResumed] = useState(() => Object.keys(loadSavedAnswers()).length > 0);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem('swell_questionnaire_v1');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed.answers && Object.keys(parsed.answers).length > 0) {
-          setAnswers(parsed.answers);
-          setResumed(true);
-        }
-      }
-      const savedSection = localStorage.getItem('swell_questionnaire_v1_section');
-      if (savedSection) setSectionIndex(parseInt(savedSection, 10));
-    } catch {}
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useSaveAnswers(answers);
@@ -117,7 +126,7 @@ export default function Home() {
             <strong>Answer with as much detail as possible.</strong> There are no wrong answers and no answer that is too long. The more you give us — stories, specifics, images, feelings — the less we have to guess, and the more the final brand will feel like you instead of a template with your name on it. Vague answers produce generic brands. Your answers produce something built for you specifically.
           </p>
           <p style={{ fontFamily: 'Georgia, serif', fontSize: '1.05rem', color: 'var(--ink)', lineHeight: '1.85', marginBottom: '0' }}>
-            If you are unsure about something, say so and explain your hesitation — that is just as useful. If a question does not apply, write "skip." You can close this at any time and return exactly where you left off. Your progress saves automatically.
+            If you are unsure about something, say so and explain your hesitation — that is just as useful. If a question does not apply, write &quot;skip.&quot; You can close this at any time and return exactly where you left off. Your progress saves automatically.
           </p>
           <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid rgba(176,141,87,0.3)', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brass)', flexShrink: 0 }} />

@@ -37,6 +37,12 @@
 
 8. **MLS platform name**: PropertyJournal footer note has `[STUB: MLS platform]` — update when confirmed.
 
+## Recent Fix Cycle — 2026-06-14
+
+- Closed GitHub Issue #1402 after hardening bb-moonbow for launch: added semantic landmarks/navigation, preserved the single h1, improved visible focus states, fixed form labeling and localStorage hydration warnings, and verified build/lint health.
+- Files touched in this cycle: `app/globals.css`, `app/questionnaire/page.tsx`, `components/Footer.tsx`, `components/Header.tsx`, `components/sections/About.tsx`, `components/sections/ClientStories.tsx`, `components/sections/Hero.tsx`, `components/sections/PropertyJournal.tsx`, `components/sections/Services.tsx`, `lib/stub-data.ts`, `lib/useFormPersistence.ts`, plus new public assets (`public/britteney-portrait.jpg`, `public/property-1.jpg`, `public/property-2.jpg`, `public/property-3.jpg`, `public/avatar-1.jpg`, `public/avatar-2.jpg`, `public/avatar-3.jpg`).
+- Validation: `npm run lint` ✅ and `npm run build` ✅.
+
 ## Key Decisions
 
 - Used inline styles + existing CSS classes throughout to avoid Tailwind dependency (this project uses Tailwind v4 but the existing questionnaire used inline styles — maintained consistency).

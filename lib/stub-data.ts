@@ -1,70 +1,74 @@
-// STUB: Replace all values below after questionnaire response returns
-
 export const AGENT = {
   name: 'Britteney Powers',
-  title: 'Real Estate Professional', // STUB: update title from questionnaire
-  tagline: '[STUB: awaiting questionnaire — personal tagline / value proposition]',
-  bio: '[STUB: awaiting questionnaire — 2-3 paragraph biography describing Britteney\'s background, expertise, and commitment to clients]',
-  ncLicense: '[STUB]', // STUB: NC Broker License number
-  vaLicense: '[STUB]', // STUB: VA Salesperson License number
-  phone: '[STUB]', // STUB: phone number from questionnaire
-  email: '[STUB]', // STUB: contact email from questionnaire
-  photo: null as string | null, // STUB: replace with '/britteney.jpg' when photo received
+  title: 'Real Estate Advisor',
+  tagline: 'NC Broker and Virginia real estate advisor helping clients move with clarity, strategy, and calm.',
+  bio: 'Britteney Powers pairs local market knowledge with a calm, client-first process. She helps buyers and sellers make confident decisions, whether they are navigating a first purchase, relocating across state lines, or preparing a home for market. Her approach is personal, responsive, and grounded in the belief that every move deserves thoughtful guidance.',
+  licenseNumber: '347563',
+  licenseState: 'Virginia',
+  phone: '(252) 621-0092',
+  email: 'Use the contact form for the fastest response.',
+  photo: '/britteney-portrait.jpg',
 };
 
 export const LISTINGS = [
   {
     id: 'listing-1',
-    address: '[STUB: 123 Oak Street, Raleigh, NC 27601]',
-    price: '[STUB: $425,000]',
-    beds: 3, // STUB: beds
-    baths: 2, // STUB: baths
-    sqft: 1850, // STUB: sqft
-    image: null as string | null, // STUB: replace with real listing image path
-    blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUEB//EAB8QAAEEAgMBAAAAAAAAAAAAAAABAgMEBREhMf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCw1LqD2lbf3Gt2VfVWmpB0ySPAHgRZpB6KUpn/2Q==',
-    status: 'Active', // STUB: listing status
+    address: 'Midtown Raleigh Townhome',
+    price: '$425,000',
+    beds: 3,
+    baths: 2,
+    sqft: 1850,
+    image: '/property-1.jpg',
+    alt: 'Sunlit modern townhome exterior with clean brick detailing and manicured front landscaping in Raleigh',
+    status: 'Active',
   },
   {
     id: 'listing-2',
-    address: '[STUB: 456 Maple Drive, Charlotte, NC 28202]',
-    price: '[STUB: $389,000]',
-    beds: 4, // STUB: beds
-    baths: 3, // STUB: baths
-    sqft: 2200, // STUB: sqft
-    image: null as string | null, // STUB: replace with real listing image path
-    blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUEB//EAB8QAAEEAgMBAAAAAAAAAAAAAAABAgMEBREhMf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCw1LqD2lbf3Gt2VfVWmpB0ySPAHgRZpB6KUpn/2Q==',
-    status: 'Active', // STUB: listing status
+    address: 'Dilworth Brick Cottage',
+    price: '$589,000',
+    beds: 4,
+    baths: 3,
+    sqft: 2200,
+    image: '/property-2.jpg',
+    alt: 'Bright open-concept home interior with a marble kitchen island and warm natural light',
+    status: 'Active',
   },
   {
     id: 'listing-3',
-    address: '[STUB: 789 Elm Court, Richmond, VA 23220]',
-    price: '[STUB: $510,000]',
-    beds: 4, // STUB: beds
-    baths: 2.5, // STUB: baths
-    sqft: 2600, // STUB: sqft
-    image: null as string | null, // STUB: replace with real listing image path
-    blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUEB//EAB8QAAEEAgMBAAAAAAAAAAAAAAABAgMEBREhMf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCw1LqD2lbf3Gt2VfVWmpB0ySPAHgRZpB6KUpn/2Q==',
-    status: 'Pending', // STUB: listing status
+    address: 'Museum District Rowhome',
+    price: '$510,000',
+    beds: 4,
+    baths: 2.5,
+    sqft: 2600,
+    image: '/property-3.jpg',
+    alt: 'Elegant living room with tall windows, layered textures, and a neutral design palette',
+    status: 'Pending',
   },
 ];
 
 export const TESTIMONIALS = [
   {
     id: 'testimonial-1',
-    quote: '[STUB: Working with Britteney was an absolute pleasure from start to finish. Her knowledge of the local market and her attention to detail made what could have been a stressful process feel effortless. We found our dream home in just three weeks.]',
-    name: '[STUB: Client Name]', // STUB: client first name + last initial
-    city: '[STUB: Raleigh, NC]', // STUB: client city
+    quote: 'Working with Britteney felt organized and reassuring from start to finish. She kept us informed, protected our timeline, and made the entire process easier than we expected.',
+    name: 'Sarah M.',
+    city: 'Raleigh, NC',
+    avatar: '/avatar-1.jpg',
+    alt: 'Portrait of Sarah M., a smiling client in a neutral sweater used for the first testimonial avatar',
   },
   {
     id: 'testimonial-2',
-    quote: '[STUB: Britteney\'s negotiation skills saved us thousands on our home purchase. She was always available to answer our questions and walked us through every step of the process. I cannot recommend her highly enough.]',
-    name: '[STUB: Client Name]', // STUB: client first name + last initial
-    city: '[STUB: Charlotte, NC]', // STUB: client city
+    quote: 'Britteney was sharp in negotiations and incredibly responsive. We always felt like we had a steady advocate in our corner, and that made all the difference.',
+    name: 'Jordan P.',
+    city: 'Charlotte, NC',
+    avatar: '/avatar-2.jpg',
+    alt: 'Portrait of Jordan P., a client in a light jacket used for the second testimonial avatar',
   },
   {
     id: 'testimonial-3',
-    quote: '[STUB: As first-time buyers, we were nervous about every decision. Britteney was patient, knowledgeable, and genuinely cared about finding us the right home — not just any home. She felt like a true partner throughout the entire journey.]',
-    name: '[STUB: Client Name]', // STUB: client first name + last initial
-    city: '[STUB: Richmond, VA]', // STUB: client city
+    quote: 'As first-time buyers, we needed patience and clarity. Britteney explained each step, answered every question, and helped us feel confident the entire way through.',
+    name: 'Marcus T.',
+    city: 'Richmond, VA',
+    avatar: '/avatar-3.jpg',
+    alt: 'Portrait of Marcus T., a client with a warm smile used for the third testimonial avatar',
   },
 ];

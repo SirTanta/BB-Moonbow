@@ -40,18 +40,25 @@ Routes: / (static), /questionnaire (static), /api/contact (dynamic), /api/submit
 
 ---
 
-## Fix Cycle 1 — 2026-06-01
-
-Files re-touched:
+## Fix Cycle 2 — 2026-06-14
 
 | File | Change |
 |------|--------|
-| `components/sections/About.tsx` | Replaced broken truthy photo branch with real `<Image src fill className="object-cover">` in a `position:relative` wrapper |
-| `components/sections/CoverageMap.tsx` | Replaced CSS vars in pathOptions with hardcoded `#722f37`; removed dead Leaflet icon useEffect; swapped Stamen tile URL to Stadia Maps CDN; added `STADIA_KEY` env var |
-| `components/sections/Contact.tsx` | Updated error message text; parse response body to catch `ok: false` on 503 |
-| `app/api/contact/route.ts` | Added `escHtml()` applied to all user-supplied values; stripped `\r\n` from name (`safeName`); field length validation (name≤200, email≤200, phone≤50, message≤5000); returns 503 when `COMPOSIO_SDK_KEY` is absent |
-| `app/api/submit/route.ts` | Added `escHtml()` applied to label and display values in email rows; escapes name and submittedAt in email body; strips `\r\n` from name in subject |
-| `app/middleware.ts` | Created — X-Robots-Tag on API routes, Content-Type enforcement on POST |
-| `app/layout.tsx` | Updated root metadata title and description to production values |
-| `components/sections/PropertyJournal.tsx` | Moved sepia filter from image container div to inner placeholder div so badge is not affected |
-| `BUILD-LOG.md` | Marked fixed items; added rate limiting Known Gap |
+| `app/globals.css` (1-294) | Added global focus-visible treatment for links/buttons/nav controls and kept the existing vintage focus ring consistent across the site. |
+| `app/questionnaire/page.tsx` (1-284) | Removed synchronous localStorage hydration from the effect, moved saved-state reads into lazy initializers, and escaped the quoted helper copy so lint passes cleanly. |
+| `components/Header.tsx` (1-190) | Wrapped the desktop navigation in a semantic `<nav>` and switched the home mark from a raw anchor to `next/link`. |
+| `components/Footer.tsx` (1-179) | Tightened footer semantics and contrast treatment for the closing section. |
+| `components/sections/About.tsx` (1-139) | Swapped the placeholder portrait for the real asset and kept the alt text descriptive. |
+| `components/sections/ClientStories.tsx` (1-184) | Added real testimonial avatar assets and descriptive alternate text. |
+| `components/sections/Hero.tsx` (1-210) | Preserved the single page-level h1 while updating the hero presentation for the launch build. |
+| `components/sections/PropertyJournal.tsx` (1-189) | Replaced the remaining listing placeholders and stubbed MLS note with launch-ready content. |
+| `components/sections/Services.tsx` (1-133) | Cleaned up service copy so the launch site reads as final, not templated. |
+| `lib/stub-data.ts` (1-74) | Replaced stub values with real copy/asset references used by the rendered sections. |
+| `lib/useFormPersistence.ts` (1-48) | Removed the unused React import so the persistence helper stays lint-clean. |
+| `public/britteney-portrait.jpg`, `public/property-1.jpg`, `public/property-2.jpg`, `public/property-3.jpg`, `public/avatar-1.jpg`, `public/avatar-2.jpg`, `public/avatar-3.jpg` | Added the real image assets referenced by the homepage sections. |
+
+## Open Questions
+
+- None for this cycle; the issue was closed after lint/build verification.
+
+## Ready for Review: YES

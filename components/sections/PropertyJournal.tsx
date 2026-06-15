@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { LISTINGS } from '@/lib/stub-data';
 
 export default function PropertyJournal() {
@@ -12,43 +13,45 @@ export default function PropertyJournal() {
       }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-
-        {/* Masthead header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <p style={{
-            fontFamily: 'var(--font-accent, Georgia, serif)',
-            fontStyle: 'italic',
-            fontSize: '0.9rem',
-            color: 'var(--brass)',
-            marginBottom: '12px',
-          }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-accent, Georgia, serif)',
+              fontStyle: 'italic',
+              fontSize: '0.9rem',
+              color: 'var(--brass)',
+              marginBottom: '12px',
+            }}
+          >
             The Property Journal
           </p>
-          <h2 style={{
-            fontFamily: 'var(--font-display, Georgia, serif)',
-            fontSize: 'clamp(2rem, 5vw, 3rem)',
-            color: 'var(--ink)',
-            fontWeight: 400,
-            marginBottom: '0',
-            letterSpacing: '0.02em',
-          }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display, Georgia, serif)',
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              color: 'var(--ink)',
+              fontWeight: 400,
+              marginBottom: '0',
+              letterSpacing: '0.02em',
+            }}
+          >
             Current Properties
           </h2>
-          {/* Masthead decorative rule */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', marginTop: '16px' }}>
-            <div style={{ height: '1px', width: '60px', background: 'var(--brass)' }} />
-            <span style={{ color: 'var(--brass)', fontSize: '0.8rem' }}>✦</span>
-            <div style={{ height: '1px', width: '60px', background: 'var(--brass)' }} />
+            <div style={{ height: '1px', width: '60px', background: 'var(--brass)' }} aria-hidden="true" />
+            <span style={{ color: 'var(--brass)', fontSize: '0.8rem' }} aria-hidden="true">✦</span>
+            <div style={{ height: '1px', width: '60px', background: 'var(--brass)' }} aria-hidden="true" />
           </div>
         </div>
 
-        {/* Listing cards grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '32px',
-          marginBottom: '48px',
-        }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '32px',
+            marginBottom: '48px',
+          }}
+        >
           {LISTINGS.map((listing) => (
             <div
               key={listing.id}
@@ -60,87 +63,78 @@ export default function PropertyJournal() {
                 boxShadow: '0 2px 12px rgba(44,24,16,0.08)',
               }}
             >
-              {/* Image area */}
-              <div style={{
-                width: '100%',
-                aspectRatio: '4/3',
-                background: 'var(--parchment)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderBottom: '1px solid rgba(176,141,87,0.2)',
-                position: 'relative',
-              }}>
-                {/* STUB: listing.image will replace this placeholder when real photos are provided */}
-                {/* STUB: apply filter to <img> element directly (not this container) to avoid bleeding onto status badge */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '8px',
-                  opacity: 0.4,
-                  filter: 'sepia(0.4) contrast(1.1)',
-                }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ color: 'var(--sepia)' }}>
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <path d="M21 15l-5-5L5 21" />
-                  </svg>
-                  <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.75rem', color: 'var(--sepia)', fontStyle: 'italic' }}>
-                    Photo Coming Soon
-                  </span>
-                </div>
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '4/3',
+                  background: 'var(--parchment)',
+                  borderBottom: '1px solid rgba(176,141,87,0.2)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                <Image
+                  src={listing.image}
+                  alt={listing.alt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 33vw"
+                  style={{ objectFit: 'cover' }}
+                />
 
-                {/* Status badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  right: '12px',
-                  background: listing.status === 'Active' ? 'var(--brass)' : 'var(--sepia)',
-                  color: 'var(--cream)',
-                  padding: '3px 10px',
-                  fontFamily: 'var(--font-subhead, Georgia, serif)',
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    background: listing.status === 'Active' ? 'var(--brass)' : 'var(--sepia)',
+                    color: 'var(--cream)',
+                    padding: '3px 10px',
+                    fontFamily: 'var(--font-subhead, Georgia, serif)',
+                    fontSize: '0.65rem',
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                  }}
+                >
                   {listing.status}
                 </div>
               </div>
 
-              {/* Card body */}
               <div style={{ padding: '20px 22px 24px' }}>
-                <p style={{
-                  fontFamily: 'var(--font-subhead, Georgia, serif)',
-                  fontSize: '0.95rem',
-                  color: 'var(--ink)',
-                  fontWeight: 700,
-                  marginBottom: '8px',
-                  lineHeight: 1.3,
-                }}>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-subhead, Georgia, serif)',
+                    fontSize: '0.95rem',
+                    color: 'var(--ink)',
+                    fontWeight: 700,
+                    marginBottom: '8px',
+                    lineHeight: 1.3,
+                  }}
+                >
                   {listing.address}
-                  {/* STUB: address from stub-data */}
                 </p>
 
-                <p style={{
-                  fontFamily: 'var(--font-display, Georgia, serif)',
-                  fontSize: '1.3rem',
-                  color: 'var(--brass)',
-                  marginBottom: '12px',
-                  letterSpacing: '0.02em',
-                }}>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display, Georgia, serif)',
+                    fontSize: '1.3rem',
+                    color: 'var(--brass)',
+                    marginBottom: '12px',
+                    letterSpacing: '0.02em',
+                  }}
+                >
                   {listing.price}
-                  {/* STUB: price from stub-data */}
                 </p>
 
-                <div style={{
-                  display: 'flex',
-                  gap: '16px',
-                  fontFamily: 'Georgia, serif',
-                  fontSize: '0.78rem',
-                  color: 'var(--sepia)',
-                  marginBottom: '20px',
-                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '16px',
+                    fontFamily: 'Georgia, serif',
+                    fontSize: '0.78rem',
+                    color: 'var(--sepia)',
+                    marginBottom: '20px',
+                  }}
+                >
                   <span>{listing.beds} bed{listing.beds !== 1 ? 's' : ''}</span>
                   <span>&middot;</span>
                   <span>{listing.baths} bath{listing.baths !== 1 ? 's' : ''}</span>
@@ -148,12 +142,13 @@ export default function PropertyJournal() {
                   <span>{listing.sqft.toLocaleString()} sqft</span>
                 </div>
 
-                <button
-                  onClick={() => {
-                    const el = document.getElementById('contact');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                <a
+                  href="#contact"
+                  className="learn-more-link"
                   style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     width: '100%',
                     background: 'transparent',
                     border: '1px solid var(--brass)',
@@ -166,28 +161,28 @@ export default function PropertyJournal() {
                     cursor: 'pointer',
                     transition: 'all 0.2s',
                     borderRadius: '1px',
+                    textDecoration: 'none',
                   }}
                 >
-                  For Enquiries
-                </button>
+                  Learn More →
+                </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* MLS footer note */}
         <div style={{ textAlign: 'center' }}>
-          <p style={{
-            fontFamily: 'var(--font-accent, Georgia, serif)',
-            fontStyle: 'italic',
-            fontSize: '0.85rem',
-            color: 'var(--sepia)',
-          }}>
-            {/* STUB: MLS platform name pending */}
-            All listings on <a href="#contact" style={{ color: 'var(--brass)', textDecoration: 'underline' }}>[STUB: MLS platform]</a>
+          <p
+            style={{
+              fontFamily: 'var(--font-accent, Georgia, serif)',
+              fontStyle: 'italic',
+              fontSize: '0.85rem',
+              color: 'var(--sepia)',
+            }}
+          >
+            All listings are presented through the local MLS and updated as availability changes.
           </p>
         </div>
-
       </div>
     </section>
   );
