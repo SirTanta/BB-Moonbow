@@ -4,6 +4,73 @@ import Image from 'next/image';
 import { LISTINGS } from '@/lib/stub-data';
 
 export default function PropertyJournal() {
+  if (LISTINGS.length === 0) {
+    return (
+      <section
+        id="properties"
+        style={{
+          padding: '80px 24px',
+          background: 'var(--cream)',
+          textAlign: 'center',
+        }}
+      >
+        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-accent, Georgia, serif)',
+              fontStyle: 'italic',
+              fontSize: '0.9rem',
+              color: 'var(--brass)',
+              marginBottom: '12px',
+            }}
+          >
+            The Property Journal
+          </p>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display, Georgia, serif)',
+              fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
+              color: 'var(--ink)',
+              fontWeight: 400,
+              marginBottom: '20px',
+            }}
+          >
+            Active Listings
+          </h2>
+          <p
+            style={{
+              fontFamily: 'Georgia, serif',
+              fontSize: '1rem',
+              color: 'var(--sepia)',
+              lineHeight: 1.7,
+              marginBottom: '32px',
+            }}
+          >
+            Britteney&apos;s current listings update as inventory moves. Reach out directly
+            to discuss what&apos;s available in your target area — or to get your home in front
+            of the right buyers.
+          </p>
+          <a
+            href="#contact"
+            style={{
+              display: 'inline-block',
+              border: '1px solid var(--brass)',
+              color: 'var(--brass)',
+              fontFamily: 'var(--font-subhead, Georgia, serif)',
+              fontSize: '0.72rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              padding: '12px 28px',
+              textDecoration: 'none',
+            }}
+          >
+            Contact for Current Inventory
+          </a>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       id="properties"

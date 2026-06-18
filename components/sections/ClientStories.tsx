@@ -7,6 +7,8 @@ import { TESTIMONIALS } from '@/lib/stub-data';
 export default function ClientStories() {
   const [activeIdx, setActiveIdx] = useState(0);
 
+  if (TESTIMONIALS.length === 0) return null;
+
   return (
     <section
       id="testimonials"
