@@ -1,0 +1,115 @@
+name: Architecture Review Gate
+
+on:
+  pull_request:
+    paths:
+      - '**/*.toml'
+      - '**/*.lock'
+      - '**/go.mod'
+      - '**/go.sum'
+      - '**/requirements*.txt'
+      - '**/requirements*.in'
+      - '**/Pipfile*'
+      - '**/pyproject.toml'
+      - '**/poetry.lock'
+      - '**/package.json'
+      - '**/package-lock.json'
+      - '**/yarn.lock'
+      - '**/pnpm-lock.yaml'
+      - '**/bun.lockb'
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
+      - '**/Gemfile'
+      - '**/Gemfile.lock'
+      - '**/pom.xml'
+      - '**/build.gradle*'
+      - '**/gradle.lockfile'
+      - '**/cabal.project*'
+      - '**/stack.yaml*'
+      - '**/mix.exs'
+      - '**/mix.lock'
+      - '**/rebar.config'
+      - '**/rebar.lock'
+      - '**/*.csproj'
+      - '**/*.fsproj'
+      - '**/*.vbproj'
+      - '**/paket.lock'
+
+jobs:
+  review-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect new external dependencies
+        id: detect
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- \
+            '*.toml' '*.lock' 'go.mod' 'go.sum' \
+            'requirements*.txt' 'requirements*.in' 'Pipfile*' \
+            'pyproject.toml' 'poetry.lock' 'package.json' 'package-lock.json' \
+            'yarn.lock' 'pnpm-lock.yaml' 'bun.lockb' \
+            'Cargo.toml' 'Cargo.lock' 'Gemfile' 'Gemfile.lock' \
+            'pom.xml' 'build.gradle*' 'gradle.lockfile' \
+            'cabal.project*' 'stack.yaml*' 'mix.exs' 'mix.lock' \
+            'rebar.config' 'rebar.lock' \
+            '*.csproj' '*.fsproj' '*.vbproj' 'paket.lock' || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "No dependency manifest files changed."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          {
+            echo 'files<<EOF'
+            echo "$CHANGED"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Apply needs-arch-review label
+        if: steps.detect.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr edit "${{ github.event.pull_request.number }}" \
+            --add-label "needs-arch-review"
+
+      - name: Post advisory comment
+        if: steps.detect.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat <<'COMMENT' > /tmp/arch-review-body.md
+          ## 🏛️ Architecture Review Recommended
+
+          This pull request introduces changes to dependency manifest files.
+          New external dependencies should be reviewed to ensure they align with
+          the project's architectural guidelines, licensing requirements, and
+          security posture.
+
+          **This is an advisory notice only.** It does not block merging, but
+          please confirm that any new dependencies have been vetted before
+          deploying to production.
+
+          | Changed files |
+          |---------------|
+          COMMENT
+
+          echo "${{ steps.detect.outputs.files }}" | while read -r f; do
+            echo "| \`$f\` |" >> /tmp/arch-review-body.md
+          done
+
+          cat >> /tmp/arch-review-body.md <<'COMMENT2'
+
+          ---
+          *Generated automatically by the Architecture Review Gate workflow.*
+          COMMENT2
+
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --body-file /tmp/arch-review-body.md
